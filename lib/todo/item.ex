@@ -5,7 +5,7 @@ defmodule Todo.Item do
 
   def new(description) do
     %__MODULE__{
-      id: :random.uniform(1_000_000_000),
+      id: UUID.uuid4(),
       description: description
     }
   end
