@@ -6,7 +6,7 @@ WORKDIR /apps
 VOLUME ["/apps"]
 
 RUN mix hex.info
-RUN mix local.hex --force
+RUN mix local.hex
 RUN mix deps.get --force & >/dev/null
 
 CMD ["/bin/sh"]
