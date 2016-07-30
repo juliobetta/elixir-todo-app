@@ -1,6 +1,9 @@
 defmodule Todo.Server do
   use Supervisor
 
+  alias Todo.Cache
+
+
   def add_list(name) do
     Supervisor.start_child(__MODULE__, [name])
   end
@@ -21,12 +24,23 @@ defmodule Todo.Server do
     |> Enum.map(fn({_, child, _, _}) -> child end)
   end
 
+  def populate_lists do
+    Enum.map(Cache.get_lists,
+      fn({_, list}) ->
+        add_list(to_string(list.name))
+      end
+    )
+  end
+
+
   ###
   # Supervisor API
   ###
 
   def start_link do
-    Supervisor.start_link(__MODULE__, [], name: __MODULE__)
+    server = Supervisor.start_link(__MODULE__, [], name: __MODULE__)
+    populate_lists
+    server
   end
 
   def init(_) do

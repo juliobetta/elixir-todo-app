@@ -13,9 +13,14 @@ defmodule Todo.Cache do
     end
   end
 
+  def get_lists do
+    :ets.tab2list(__MODULE__)
+  end
+
   def clear do
     :ets.delete_all_objects(__MODULE__)
   end
+
 
   ###
   # GenServer API
